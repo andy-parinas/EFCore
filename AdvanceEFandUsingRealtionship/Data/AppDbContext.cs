@@ -15,11 +15,16 @@ namespace AdvanceEFandUsingRealtionship.Data
         }
 
         public DbSet<Book> Books { get; set; }
+        public DbSet<Author> Authors { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Book>().Property(b => b.Isbn).HasMaxLength(10);
+
+            modelBuilder.Entity<Author>().HasKey(a => new { a.FirstName, a.LastName });
+
+
         }
     }
 }
