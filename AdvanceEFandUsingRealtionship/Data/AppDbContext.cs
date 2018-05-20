@@ -21,6 +21,12 @@ namespace AdvanceEFandUsingRealtionship.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Book>().Property(b => b.Isbn).HasMaxLength(10);
+            //modelBuilder.Entity<Book>().HasAlternateKey(b => b.Isbn).HasName("UniqueIsbn");
+            /*
+             * Using Index Property Instead of AlternateKey as describe above
+             * 
+             */
+            modelBuilder.Entity<Book>().HasIndex(b => b.Isbn).HasName("IsbnIndex").IsUnique();
 
             modelBuilder.Entity<Author>().HasKey(a => new { a.FirstName, a.LastName });
 
