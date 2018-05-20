@@ -11,9 +11,10 @@ using System;
 namespace AdvanceEFandUsingRealtionship.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180520113349_BookTitleMaxLength")]
+    partial class BookTitleMaxLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,8 +28,7 @@ namespace AdvanceEFandUsingRealtionship.Migrations
 
                     b.Property<string>("Author");
 
-                    b.Property<string>("Isbn")
-                        .HasMaxLength(10);
+                    b.Property<string>("Isbn");
 
                     b.Property<string>("Title")
                         .HasMaxLength(32);
