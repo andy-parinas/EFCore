@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,6 +20,17 @@ namespace AdvanceEFandUsingRealtionship.Models
          * public string BookIndetifier {get; set;}
          */
         public string FirstName { get; set; }
+
+        public string MiddleName { get; set; }
+
+        [NotMapped] //Means doesn't need to be stored in the database
+        public string FullName
+        {
+            get
+            {
+                return $"{FirstName} {MiddleName} {LastName}";
+            }
+        }
 
         public string LastName { get; set; }
 

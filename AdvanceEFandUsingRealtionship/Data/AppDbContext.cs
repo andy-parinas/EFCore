@@ -27,6 +27,7 @@ namespace AdvanceEFandUsingRealtionship.Data
              * 
              */
             modelBuilder.Entity<Book>().HasIndex(b => b.Isbn).HasName("IsbnIndex").IsUnique();
+            modelBuilder.Entity<Book>().Ignore(b => b.FullTitle);
 
             modelBuilder.Entity<Author>().HasKey(a => new { a.FirstName, a.LastName });
 
