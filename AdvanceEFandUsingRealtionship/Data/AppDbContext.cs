@@ -16,6 +16,10 @@ namespace AdvanceEFandUsingRealtionship.Data
 
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<Membership> Memberships { get; set; }
+        public DbSet<PersonalLibrary> PersonalLibraries { get; set; }
+        public DbSet<PersonalLibraryBook> PersonalLibraryBooks { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,7 +33,25 @@ namespace AdvanceEFandUsingRealtionship.Data
             modelBuilder.Entity<Book>().HasIndex(b => b.Isbn).HasName("IsbnIndex").IsUnique();
             modelBuilder.Entity<Book>().Ignore(b => b.FullTitle);
             modelBuilder.Entity<Book>().Property(b => b.CreatedAt).HasDefaultValueSql("getdate()");
-            modelBuilder.Entity<Author>().HasKey(a => new { a.FirstName, a.LastName });
+
+            //modelBuilder.Entity<Author>().HasKey(a => new { a.FirstName, a.LastName });
+
+            //Client -PersonalLibrary one-to-one relationship
+            modelBuilder.Entity<Client>().HasOne(c => c.PersonalLibrary).WithOne(l => l.Client).HasForeignKey<PersonalLibrary>();
+
+            //Put a constraints in the PersonalLibraryBook that no two combination of 
+            //PersonalLibrary and Book should exist
+            modelBuilder.Entity<PersonalLibraryBook>()
+                .HasKey(pl => new { pl.BookId, pl.PersonalLibraryId });
+
+            //Book-PersonalLibrary many-to-many relationship
+            modelBuilder.Entity<PersonalLibraryBook>()
+                .HasOne(pl => pl.Book).WithMany(b => b.PersonalLibraryBooks)
+                .HasForeignKey(pl => pl.BookId);
+
+            modelBuilder.Entity<PersonalLibraryBook>()
+                .HasOne(pl => pl.PersonalLibrary).WithMany(l => l.PersonalLibraryBooks)
+                .HasForeignKey(pl => pl.PersonalLibraryId);
 
 
         }

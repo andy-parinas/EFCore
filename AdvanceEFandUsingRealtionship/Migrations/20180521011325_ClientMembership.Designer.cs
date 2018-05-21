@@ -12,9 +12,10 @@ using System;
 namespace AdvanceEFandUsingRealtionship.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180521011325_ClientMembership")]
+    partial class ClientMembership
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,20 +24,17 @@ namespace AdvanceEFandUsingRealtionship.Migrations
 
             modelBuilder.Entity("AdvanceEFandUsingRealtionship.Models.Author", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DoB");
-
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
+
+                    b.Property<DateTime>("DoB");
 
                     b.Property<string>("MiddleName");
 
                     b.Property<string>("Nationality");
 
-                    b.HasKey("Id");
+                    b.HasKey("FirstName", "LastName");
 
                     b.ToTable("Authors");
                 });
@@ -46,7 +44,7 @@ namespace AdvanceEFandUsingRealtionship.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AuthorId");
+                    b.Property<string>("Author");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -59,8 +57,6 @@ namespace AdvanceEFandUsingRealtionship.Migrations
                         .HasMaxLength(32);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.HasIndex("Isbn")
                         .IsUnique()
@@ -115,69 +111,11 @@ namespace AdvanceEFandUsingRealtionship.Migrations
                     b.ToTable("Memberships");
                 });
 
-            modelBuilder.Entity("AdvanceEFandUsingRealtionship.Models.PersonalLibrary", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ClientId");
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId")
-                        .IsUnique();
-
-                    b.ToTable("PersonalLibraries");
-                });
-
-            modelBuilder.Entity("AdvanceEFandUsingRealtionship.Models.PersonalLibraryBook", b =>
-                {
-                    b.Property<int>("BookId");
-
-                    b.Property<int>("PersonalLibraryId");
-
-                    b.HasKey("BookId", "PersonalLibraryId");
-
-                    b.HasIndex("PersonalLibraryId");
-
-                    b.ToTable("PersonalLibraryBooks");
-                });
-
-            modelBuilder.Entity("AdvanceEFandUsingRealtionship.Models.Book", b =>
-                {
-                    b.HasOne("AdvanceEFandUsingRealtionship.Models.Author", "Author")
-                        .WithMany("Books")
-                        .HasForeignKey("AuthorId");
-                });
-
             modelBuilder.Entity("AdvanceEFandUsingRealtionship.Models.Membership", b =>
                 {
                     b.HasOne("AdvanceEFandUsingRealtionship.Models.Client", "Client")
                         .WithOne("Membership")
                         .HasForeignKey("AdvanceEFandUsingRealtionship.Models.Membership", "ClientId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AdvanceEFandUsingRealtionship.Models.PersonalLibrary", b =>
-                {
-                    b.HasOne("AdvanceEFandUsingRealtionship.Models.Client", "Client")
-                        .WithOne("PersonalLibrary")
-                        .HasForeignKey("AdvanceEFandUsingRealtionship.Models.PersonalLibrary", "ClientId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AdvanceEFandUsingRealtionship.Models.PersonalLibraryBook", b =>
-                {
-                    b.HasOne("AdvanceEFandUsingRealtionship.Models.Book", "Book")
-                        .WithMany("PersonalLibraryBooks")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AdvanceEFandUsingRealtionship.Models.PersonalLibrary", "PersonalLibrary")
-                        .WithMany("PersonalLibraryBooks")
-                        .HasForeignKey("PersonalLibraryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

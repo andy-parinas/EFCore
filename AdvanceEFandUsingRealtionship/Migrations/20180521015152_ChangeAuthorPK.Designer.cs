@@ -12,9 +12,10 @@ using System;
 namespace AdvanceEFandUsingRealtionship.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180521015152_ChangeAuthorPK")]
+    partial class ChangeAuthorPK
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +47,7 @@ namespace AdvanceEFandUsingRealtionship.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AuthorId");
+                    b.Property<string>("Author");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -59,8 +60,6 @@ namespace AdvanceEFandUsingRealtionship.Migrations
                         .HasMaxLength(32);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.HasIndex("Isbn")
                         .IsUnique()
@@ -132,26 +131,6 @@ namespace AdvanceEFandUsingRealtionship.Migrations
                     b.ToTable("PersonalLibraries");
                 });
 
-            modelBuilder.Entity("AdvanceEFandUsingRealtionship.Models.PersonalLibraryBook", b =>
-                {
-                    b.Property<int>("BookId");
-
-                    b.Property<int>("PersonalLibraryId");
-
-                    b.HasKey("BookId", "PersonalLibraryId");
-
-                    b.HasIndex("PersonalLibraryId");
-
-                    b.ToTable("PersonalLibraryBooks");
-                });
-
-            modelBuilder.Entity("AdvanceEFandUsingRealtionship.Models.Book", b =>
-                {
-                    b.HasOne("AdvanceEFandUsingRealtionship.Models.Author", "Author")
-                        .WithMany("Books")
-                        .HasForeignKey("AuthorId");
-                });
-
             modelBuilder.Entity("AdvanceEFandUsingRealtionship.Models.Membership", b =>
                 {
                     b.HasOne("AdvanceEFandUsingRealtionship.Models.Client", "Client")
@@ -165,19 +144,6 @@ namespace AdvanceEFandUsingRealtionship.Migrations
                     b.HasOne("AdvanceEFandUsingRealtionship.Models.Client", "Client")
                         .WithOne("PersonalLibrary")
                         .HasForeignKey("AdvanceEFandUsingRealtionship.Models.PersonalLibrary", "ClientId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AdvanceEFandUsingRealtionship.Models.PersonalLibraryBook", b =>
-                {
-                    b.HasOne("AdvanceEFandUsingRealtionship.Models.Book", "Book")
-                        .WithMany("PersonalLibraryBooks")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AdvanceEFandUsingRealtionship.Models.PersonalLibrary", "PersonalLibrary")
-                        .WithMany("PersonalLibraryBooks")
-                        .HasForeignKey("PersonalLibraryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

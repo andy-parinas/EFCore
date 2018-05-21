@@ -14,7 +14,7 @@ namespace AdvanceEFandUsingRealtionship.Models
         [MaxLength(32)]
         public string Title { get; set; }
 
-        public string Author { get; set; }
+        public Author Author { get; set; }
 
         public string Isbn { get; set; }
         
@@ -22,12 +22,16 @@ namespace AdvanceEFandUsingRealtionship.Models
         {
             get
             {
-                return $"{Author}'s {Title}";
+                return $"{Author.FullName}'s {Title}";
             }
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreatedAt { get; set; }
+
+
+        public List<PersonalLibraryBook> PersonalLibraryBooks { get; set; }
+
 
 
     }

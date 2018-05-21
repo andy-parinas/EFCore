@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,10 @@ namespace AdvanceEFandUsingRealtionship.Models
 {
     public class Author
     {
+        [Required]
+        [Key]
+        public int Id { get; set; }
+
         /*
          * No ID primary Key is used.
          * Instead we wil use the FirstName and LastName as the unique Combination
@@ -37,6 +42,8 @@ namespace AdvanceEFandUsingRealtionship.Models
         public DateTime DoB { get; set; }
 
         public string Nationality { get; set; }
+
+        public List<Book> Books { get; set; }
 
 
     }
